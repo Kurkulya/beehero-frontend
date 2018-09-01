@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { getPost, getPosts } from '../../redux/actions/postsActions';
-import axios from 'axios';
 
 const makeAsyncRequest = async (store, request, args) => {
     const action = request(args);

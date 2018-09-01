@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import Posts from './Posts';
-import { getPosts } from '../../redux/actions/postsActions';
 import { getPostsState } from '../../redux/selectors/postsSelectors';
 
 const mapStateToProps = (state) => {
@@ -9,8 +8,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = {
-    getPosts: getPosts,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps)(Posts);
