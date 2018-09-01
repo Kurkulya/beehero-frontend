@@ -9,13 +9,7 @@ export function* fetchPost(action) {
     yield put({ type: "POSTS_RECEIVED", posts });
 }
 
-function* actionWatcher() {
+export default function* actionWatcher() {
     yield takeLatest('GET_POSTS', fetchPosts);
     yield takeLatest('GET_POST', fetchPost);
-}
-
-export default function* rootSaga() {
-    yield all([
-        actionWatcher(),
-    ]);
 }

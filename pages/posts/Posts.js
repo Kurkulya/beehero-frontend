@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getPost, getPosts } from '../../redux/actions/postsActions';
+import {redirectIfNotAuthenticated} from "../../api/auth";
 
 const makeAsyncRequest = async (store, request, args) => {
     const action = request(args);
@@ -12,9 +13,10 @@ const makeAsyncAction = async (store, action, args) => {
 };
 
 class Posts extends Component {
-    static async getInitialProps({store}) {
-        await makeAsyncAction(store, getPost, 'uuuuuuuuuuuuuuuu');
-        const postsAll = await makeAsyncRequest(store, getPosts);
+    static async getInitialProps(ctx) {
+        if(redirectIfNotAuthenticated(ctx)) return {};
+        await makeAsyncAction(ctx.store, getPost, 'uuuuuuuuuuuuuuuu');
+        const postsAll = await makeAsyncRequest(ctx.store, getPosts);
         return {postsAll};
     }
     render() {
