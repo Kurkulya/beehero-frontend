@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import { fetchPosts } from '../../redux/sagas/postsSaga';
+import { getPost, getPosts } from '../../redux/actions/postsActions';
 import axios from 'axios';
 
+const makeAsyncRequest = async (store, request, args) => {
+    const action = request(args);
+    store.dispatch(action);
+    return await action.payload;
+};
+
+const makeAsyncAction = async (store, action, args) => {
+    await store.dispatch(action(args));
+};
+
 class Posts extends Component {
-    static async getInitialProps() {
-        await fetchPosts();
-        return {};
-    }
-    componentDidMount () {
-        axios.get('https://api.github.com/repos/zeit/next.js').then((res) => {
-            console.log('DidMount', res)
-        });
+    static async getInitialProps({store}) {
+        await makeAsyncAction(store, getPost, 'uuuuuuuuuuuuuuuu');
+        const postsAll = await makeAsyncRequest(store, getPosts);
+        return {postsAll};
     }
     render() {
         return (
             <div className="posts-wrap">
-                {this.props.posts && this.props.posts.map(post => <div>{post.name}</div>)}
+                {this.props.posts && this.props.posts.map(post => <div key={post.name}>{post.name}</div>)}
+                {this.props.postsAll && this.props.postsAll.map(post => <div key={post.name}>{post.name}</div>)}
             </div>
         );
     }
