@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import {redirectIfAuthenticated} from "../../../api/auth";
+import {redirectIfAuthenticated} from "../../../helpers/redirect";
 
 const Login = (props) => {
     const logIn = () => {
-        console.log(props);
         props.logIn('test@mail.com', 'aa123456');
     };
     return(

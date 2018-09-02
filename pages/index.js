@@ -1,17 +1,12 @@
-import './style.scss';
+import Home from './Home';
+import { connect } from 'react-redux';
 import React from 'react';
-import { signOut, redirectIfNotAuthenticated } from "../api/auth";
+import { logOut } from "../redux/actions/authActions";
 
-const Home = () => (
-  <div>
-     <button onClick={signOut}>LogOut</button>
-  </div>
-);
-
-Home.getInitialProps = (ctx) => {
-    if (redirectIfNotAuthenticated(ctx)) {
-        return {};
+function mapDispatchToProps (dispatch) {
+    return {
+        logOut: ( ) => dispatch(logOut())
     }
-};
+}
 
-export default Home
+export default connect(null, mapDispatchToProps)(Home);

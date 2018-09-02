@@ -4,5 +4,9 @@ export const logIn = (email, password) => ({
 });
 
 export const logOut = () => ({
-    type: 'SIGN_OUT'
+    type: 'SIGN_OUT_REQUEST'
+});
+
+export const validateToken = () => ({
+    type: 'VALIDATE_TOKEN_REQUEST'
 });

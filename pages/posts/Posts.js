@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getPost, getPosts } from '../../redux/actions/postsActions';
-import {redirectIfNotAuthenticated} from "../../api/auth";
+import {redirectIfNotAuthenticated} from "../../helpers/redirect";
 
 const makeAsyncRequest = async (store, request, args) => {
     const action = request(args);

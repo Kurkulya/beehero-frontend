@@ -1,0 +1,9 @@
+{
+  "API_HOST": "https://api-ornull-list.herokuapp.com",
+  "auth": {
+    "sign_in": "/auth/sign_in",
+    "sign_out": "/auth/sign_out",
+    "validateToken": "/auth/validate_token",
+    "registration": "/auth/"
+  }
+}
