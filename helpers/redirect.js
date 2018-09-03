@@ -4,7 +4,7 @@ import { getAuthInfo } from "./authToken";
 export const isAuthenticated = ctx => !!getAuthInfo(ctx);
 const isServer = () => typeof window === "undefined";
 
-export const redirectIfAuthenticated = res => {
+export const redirectIfAuthenticated = (res) => {
     if (isAuthenticated(res)) {
         redirect("/", res, isServer());
         return true;
@@ -12,9 +12,9 @@ export const redirectIfAuthenticated = res => {
     return false;
 };
 
-export const redirectIfNotAuthenticated = req => {
+export const redirectIfNotAuthenticated = (req) => {
     if (!isAuthenticated(req)) {
-        redirect('/auth/login', req, isServer());
+        redirect('/login', req, isServer());
         return true;
     }
     return false;

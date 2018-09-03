@@ -1,41 +1,46 @@
 import axios from 'axios';
-import config from '../config/urls-config';
-import { updateHeadersClient } from '../helpers/headers';
+import config from 'config/urls-config';
+import { updateHeadersClient } from 'helpers/headers';
 
 export default class ApiClient {
-    constructor ({ prefix = config.API_HOST } = {}) {
+    constructor({ prefix = config.API_HOST } = {}) {
         this.prefix = prefix;
     }
-    get (requestUrl, payload = {}, params) {
+
+    get(requestUrl, payload = {}, params) {
         return request({
             url: `${this.prefix}${requestUrl}`,
             method: 'get',
             data: payload,
-            params
+            params,
         });
     }
-    put (requestUrl, payload = {}) {
+
+    put(requestUrl, payload = {}) {
         return request({
             url: `${this.prefix}${requestUrl}`,
             method: 'put',
-            data: payload
+            data: payload,
         });
     }
-    post (requestUrl, payload = {}) {
+
+    post(requestUrl, payload = {}) {
         return request({
             url: `${this.prefix}${requestUrl}`,
             method: 'post',
-            data: payload
+            data: payload,
         });
     }
-    delete (requestUrl) {
+
+    delete(requestUrl) {
         return request({
             url: `${this.prefix}${requestUrl}`,
-            method: 'delete'
+            method: 'delete',
         });
     }
-    validateToken (requestUrl, headers) {
-        return axios({ method: 'GET', url: `${this.prefix}${requestUrl}`, headers: {...JSON.parse(headers)} })
+
+    validateToken(requestUrl, headers) {
+        return axios({ method: 'GET', url: `${this.prefix}${requestUrl}`, headers: { ...JSON.parse(headers) } })
             .then((response) => {
                 if (response.data && response.data.data) {
                     response.data = response.data.data;
@@ -45,18 +50,18 @@ export default class ApiClient {
                 }
                 return response;
             }, (error) => {
-                return {error};
+                return { error };
             });
     }
 }
 const request = ({
-                     url, method, data, params = {}
-                 }) => {
+    url, method, data, params = {},
+}) => {
     return axios({
         method,
         url,
         params,
-        data
+        data,
     })
         .then((response) => {
             if (response.headers) {
@@ -68,7 +73,7 @@ const request = ({
                 }
                 return response;
             }
-        }, (xhr) => {
+        }).catch((xhr) => {
             if (xhr.response && xhr.response.headers) {
                 updateHeadersClient(xhr.response.headers);
             }
@@ -89,6 +94,6 @@ const request = ({
                 }
                 return result;
             };
-            return response;
+            throw response;
         });
 };

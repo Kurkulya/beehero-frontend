@@ -5,13 +5,13 @@ import { authTokenFormat, hasAuthInfo } from './authToken';
 const authHeadersKeys = ['access-token', 'client', 'uid'];
 
 export const updateHeadersClient = (headers) => {
-    if(!headers || !hasAuthInfo(headers)) return null;
+    if (!headers || !hasAuthInfo(headers)) return null;
     setDefaultHeaders(headers);
     const authToken = authTokenFormat(headers);
     setCookieClient('auth-headers', authToken);
 };
 
-export function updateHeadersServer (res, responseHeaders = {}, requestHeaders = {}) {
+export function updateHeadersServer(res, responseHeaders = {}, requestHeaders = {}) {
     let headers = requestHeaders;
     if (hasAuthInfo(responseHeaders)) {
         headers = authTokenFormat(responseHeaders);
@@ -19,7 +19,7 @@ export function updateHeadersServer (res, responseHeaders = {}, requestHeaders =
     setCookieServer(res, 'auth-headers', JSON.stringify(headers));
 }
 
-export function deleteAuthHeaders () {
+export function deleteAuthHeaders() {
     authHeadersKeys.forEach((key) => {
         delete axios.defaults.headers.common[key];
     });
@@ -30,4 +30,3 @@ const setDefaultHeaders = (headers) => {
         axios.defaults.headers.common[key] = headers[key];
     });
 };
-

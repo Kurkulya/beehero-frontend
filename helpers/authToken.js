@@ -4,14 +4,14 @@ export const hasAuthInfo = (res) => {
     return res['access-token'] && res.client && res.uid;
 };
 
-export const getAuthInfo = ctx => {
+export const getAuthInfo = (ctx) => {
     return getCookie('auth-headers', ctx.req);
 };
 
-export function authTokenFormat (header) {
+export function authTokenFormat(header) {
     return {
         'access-token': header['access-token'],
-        'client': header['client'],
-        'uid': header['uid']
+        client: header.client,
+        uid: header.uid,
     };
 }

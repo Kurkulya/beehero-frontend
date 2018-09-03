@@ -1,12 +1,11 @@
-import Home from './Home';
 import { connect } from 'react-redux';
-import React from 'react';
-import { logOut } from "../redux/actions/authActions";
+import { logOut } from "redux/actions/authActions";
+import Home from './Home';
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
-        logOut: ( ) => dispatch(logOut())
-    }
+        logOut: () => dispatch(logOut()),
+    };
 }
 
 export default connect(null, mapDispatchToProps)(Home);

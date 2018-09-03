@@ -3,19 +3,19 @@ import Cookies from "js-cookie";
 export const setCookieClient = (key, value) => {
     Cookies.set(key, value, {
         expires: 1,
-        path: "/"
+        path: "/",
     });
 };
 
-export function setCookieServer (res, key, value) {
+export function setCookieServer(res, key, value) {
     if (res) {
         res.cookie(key, value, { maxAge: 1 });
     }
 }
 
-export const removeCookieClient = key => {
+export const removeCookieClient = (key) => {
     Cookies.remove(key, {
-        expires: 1
+        expires: 1,
     });
 };
 

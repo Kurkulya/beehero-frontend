@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
+import { getPostsState } from 'redux/selectors/postsSelectors';
 import Posts from './Posts';
-import { getPostsState } from '../../redux/selectors/postsSelectors';
 
 const mapStateToProps = (state) => {
     return {
-        posts: getPostsState(state)
+        posts: getPostsState(state),
     };
 };
 
