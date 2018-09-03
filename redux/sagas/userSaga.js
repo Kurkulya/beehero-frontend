@@ -7,7 +7,7 @@ import { deleteAuthHeaders } from "../../helpers/headers";
 export function* logIn(action) {
     try {
         console.log(api.auth.signIn);
-        const {data} = yield api.auth.signIn(action.payload);
+        const {data} = yield call([api.auth, api.auth.signIn], action.payload);
         console.log(data);
         yield put({type: "SIGN_IN_SUCCESS", user: data});
     } catch (error) {
@@ -17,7 +17,7 @@ export function* logIn(action) {
 
 export function* logOut() {
     try {
-        yield api.auth.signOut;
+        yield call([api.auth, api.auth.signOut]);
         deleteAuthHeaders();
         removeCookieClient('auth-headers');
         redirect("/auth/login");
@@ -30,7 +30,7 @@ export function* logOut() {
 export function* validateToken() {
     try {
         const headers = getCookieClient('auth-headers');
-        const { data } = yield api.auth.validateToken(headers);
+        const { data } = yield call([api.auth, api.auth.validateToken], headers);
         if(!data) throw 'Unauthorized';
         yield put({type: "SIGN_IN_SUCCESS", user: data});
     } catch (error) {
