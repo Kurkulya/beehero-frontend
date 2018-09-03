@@ -1,5 +1,5 @@
 import config from 'config/urls-config';
-import Base from './api/Base';
+import Base from './Base';
 
 export default class Auth extends Base {
     signIn({ email, password }) {
