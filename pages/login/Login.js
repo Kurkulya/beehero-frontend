@@ -9,7 +9,7 @@ const Login = ({ logIn }) => {
     };
     return (
         <div>
-            <div>LoginPage</div>
+            <div className="">LoginPage</div>
             <button onClick={signIn}>LogIn</button>
             <Link href="/posts">Posts</Link>
         </div>);
