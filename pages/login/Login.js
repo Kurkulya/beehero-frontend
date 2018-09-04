@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Input from 'components/Input';
 import { redirectIfAuthenticated } from "helpers/redirect";
 import PropTypes from 'prop-types';
 
@@ -9,9 +9,8 @@ const Login = ({ logIn }) => {
     };
     return (
         <div>
-            <div>LoginPage</div>
             <button onClick={signIn}>LogIn</button>
-            <Link href="/posts">Posts</Link>
+            <Input/>
         </div>);
 };
 
