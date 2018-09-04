@@ -3,11 +3,12 @@ import api from 'api/config/apiAuth';
 import { redirect } from "helpers/redirect";
 import { deleteAuthHeaders } from "helpers/headers";
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
-import {authTokenFormat, hasAuthInfo} from "../../helpers/authToken";
+import { authTokenFormat, hasAuthInfo } from "../../helpers/authToken";
 
 export function* logIn(action) {
     try {
         const { data } = yield call([api.auth, api.auth.signIn], action.payload);
+        redirect('/');
         yield put({ type: "SIGN_IN_SUCCESS", user: data });
     } catch (error) {
         yield put({ type: "SIGN_IN_ERROR", error });
@@ -35,14 +36,13 @@ export function* validateToken(action) {
             setCookie(action.payload, 'auth-headers', JSON.stringify(authHeaders));
             console.log('Server cookies has been set: ', authHeaders);
         }
-        if(data) {
+        if (data) {
             yield put({ type: "SIGN_IN_SUCCESS", user: data });
-        }
-        else {
+        } else {
             yield put({ type: "SIGN_IN_ERROR", error });
         }
     } catch (error) {
-        if(action.payload.res && !action.payload.res.finished) {
+        if (action.payload.res && !action.payload.res.finished) {
             destroyCookie(action.payload, 'auth-headers');
             console.log('Server cookies has been deleted');
         }

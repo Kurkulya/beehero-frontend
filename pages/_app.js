@@ -2,11 +2,17 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import withRedux from 'next-redux-wrapper';
+import en from 'react-intl/locale-data/en';
 import withReduxSaga from 'next-redux-saga';
 import configureStore from 'redux/store';
+import locales from 'locales';
 import { validateToken } from "redux/actions/authActions";
 import { parseCookies } from 'nookies';
-import {setDefaultHeaders} from "../helpers/headers";
+import { addLocaleData, IntlProvider } from 'react-intl';
+import { setDefaultHeaders } from "helpers/headers";
+import { getLocaleState } from "redux/selectors/localeSelectors";
+
+addLocaleData([...en]);
 
 class ExampleApp extends App {
     static async getInitialProps({ Component, ctx }) {
@@ -16,20 +22,25 @@ class ExampleApp extends App {
         }
         ctx.store.dispatch(validateToken(ctx));
         const headers = parseCookies(ctx)['auth-headers'];
-        if(ctx.isServer) {
+        if (ctx.isServer) {
             setDefaultHeaders(headers);
         }
         return { pageProps, authHeaders: headers };
     }
-    componentDidMount () {
+
+    componentDidMount() {
         setDefaultHeaders(this.props.authHeaders);
     }
+
     render() {
         const { Component, pageProps, store } = this.props;
+        const locale = getLocaleState(store.getState());
         return (
             <Container>
                 <Provider store={store}>
-                    <Component {...pageProps} />
+                    <IntlProvider locale={locale} messages={locales[locale].messages}>
+                        <Component {...pageProps} />
+                    </IntlProvider>
                 </Provider>
             </Container>
         );
