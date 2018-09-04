@@ -7,6 +7,7 @@ export const logOut = () => ({
     type: 'SIGN_OUT_REQUEST',
 });
 
-export const validateToken = () => ({
+export const validateToken = request => ({
     type: 'VALIDATE_TOKEN_REQUEST',
+    payload: request,
 });

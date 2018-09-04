@@ -1,8 +1,8 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
 import api from 'api/config/apiAuth';
-import { getCookieClient, removeCookieClient } from "helpers/cookies";
+import { getCookie, removeCookieClient, removeCookieServer } from "helpers/cookies";
 import { redirect } from "helpers/redirect";
-import { deleteAuthHeaders } from "helpers/headers";
+import { deleteAuthHeaders, updateHeadersServer } from "helpers/headers";
 
 export function* logIn(action) {
     try {
@@ -25,13 +25,18 @@ export function* logOut() {
     }
 }
 
-export function* validateToken() {
+export function* validateToken(action) {
     try {
-        const headers = getCookieClient('auth-headers');
-        const { data } = yield call([api.auth, api.auth.validateToken], headers);
-        yield put({ type: "SIGN_IN_SUCCESS", user: data });
+        console.log('validate');
+        const headers = getCookie('auth-headers', action.payload.req);
+        console.log(headers);
+        const response = yield call([api.auth, api.auth.validateToken], headers);
+        console.log('get response');
+        updateHeadersServer(action.payload.res, response.headers, headers);
+        yield put({ type: "SIGN_IN_SUCCESS", user: response.data });
     } catch (error) {
-        redirect("/login");
+        removeCookieServer('auth-headers', action.payload.res);
+        console.log('errors');
         yield put({ type: "SIGN_IN_ERROR", error });
     }
 }

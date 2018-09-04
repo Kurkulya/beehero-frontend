@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import cookie from 'cookie';
 
 export const setCookieClient = (key, value) => {
     Cookies.set(key, value, {
@@ -9,9 +10,17 @@ export const setCookieClient = (key, value) => {
 
 export function setCookieServer(res, key, value) {
     if (res) {
-        res.cookie(key, value, { maxAge: 1 });
+        res.cookie(key, value);
     }
 }
+
+export const removeCookieServer = (key, res) => {
+    console.log(res);
+    if (res && res.cookie) {
+        res.cookie(key, 'deleted');
+    }
+    console.log('removed');
+};
 
 export const removeCookieClient = (key) => {
     Cookies.remove(key, {
@@ -30,14 +39,6 @@ export const getCookieClient = (key) => {
 };
 
 export const getCookieServer = (key, req) => {
-    if (!req.headers.cookie) {
-        return undefined;
-    }
-    const rawCookie = req.headers.cookie
-        .split(";")
-        .find(c => c.trim().startsWith(`${key}=`));
-    if (!rawCookie) {
-        return undefined;
-    }
-    return rawCookie.split("=")[1];
+    if (!req.headers.cookie) return undefined;
+    return cookie.parse(req.headers.cookie)[key];
 };

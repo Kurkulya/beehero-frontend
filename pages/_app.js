@@ -12,11 +12,8 @@ class ExampleApp extends App {
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
+        ctx.store.dispatch(validateToken({ req: ctx.req, res: ctx.res }));
         return { pageProps };
-    }
-
-    componentDidMount() {
-        this.props.store.dispatch(validateToken());
     }
 
     render() {
