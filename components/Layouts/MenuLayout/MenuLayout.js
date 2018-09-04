@@ -9,9 +9,7 @@ const MenuLayout = ({ children, hideMenu }) => (
             {!hideMenu
                 && (
                     <div className="bh-menu-area">
-                        <div className="bh-menu-fixed">
-                            <Menu />
-                        </div>
+                        <Menu />
                     </div>
                 )}
             {children}

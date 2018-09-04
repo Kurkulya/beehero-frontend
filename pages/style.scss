@@ -1,6 +1,14 @@
 @import "../utils/variables.scss";
 
-body {
+html {
   height: 100%;
-  background-color: $light-color!important;
+  body {
+    padding-top: $header-height;
+    height: 100%;
+    background-color: $light-color!important;
+    #__next {
+      height: 100%;
+    }
+  }
 }
+

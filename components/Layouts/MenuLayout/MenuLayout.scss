@@ -2,15 +2,9 @@
 
 .bh-menu-layout {
   display: flex;
+  height: 100%;
   .bh-menu-area {
     width: $menu-width;
-    .bh-menu-fixed {
-      width: $menu-width;
-      position: fixed;
-      bottom: 0;
-      top: $header-height;
-      height: 100%;
-    }
   }
 }
 
