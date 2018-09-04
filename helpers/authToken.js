@@ -1,17 +1,20 @@
-import { getCookie } from "./cookies";
+import { parseCookies } from "nookies";
+import parseJson from 'helpers/parseJson';
 
 export const hasAuthInfo = (res) => {
-    return res['access-token'] && res.client && res.uid;
+    const headers = parseJson(res);
+    return headers && headers.hasOwnProperty('access-token') && headers.hasOwnProperty('client') && headers.hasOwnProperty('uid');
 };
 
 export const getAuthInfo = (ctx) => {
-    return getCookie('auth-headers', ctx.req);
+    return parseCookies(ctx)['auth-headers'];
 };
 
-export function authTokenFormat(header) {
+export function authTokenFormat(res) {
+    const headers = parseJson(res);
     return {
-        'access-token': header['access-token'],
-        client: header.client,
-        uid: header.uid,
+        'access-token': headers['access-token'],
+        client: headers.client,
+        uid: headers.uid,
     };
 }

@@ -20,8 +20,8 @@ export const redirectIfNotAuthenticated = (req) => {
     return false;
 };
 
-export const redirect = (target, ctx = {}, isServer) => {
-    if (isServer) {
+export const redirect = (target, ctx = {}) => {
+    if (!process.browser) {
         ctx.res.writeHead(303, { Location: target });
         ctx.res.end();
     } else {

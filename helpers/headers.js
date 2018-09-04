@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { setCookieClient, setCookieServer } from "./cookies";
 import { authTokenFormat, hasAuthInfo } from './authToken';
+import { setCookie } from 'nookies';
+import parseJson from 'helpers/parseJson';
 
 const authHeadersKeys = ['access-token', 'client', 'uid'];
 
@@ -8,16 +9,8 @@ export const updateHeadersClient = (headers) => {
     if (!headers || !hasAuthInfo(headers)) return null;
     setDefaultHeaders(headers);
     const authToken = authTokenFormat(headers);
-    setCookieClient('auth-headers', authToken);
+    setCookie({}, 'auth-headers', JSON.stringify(authToken), { path: '/' });
 };
-
-export function updateHeadersServer(res, responseHeaders = {}, requestHeaders = {}) {
-    let headers = requestHeaders;
-    if (hasAuthInfo(responseHeaders)) {
-        headers = authTokenFormat(responseHeaders);
-    }
-    setCookieServer(res, 'auth-headers', JSON.stringify(headers));
-}
 
 export function deleteAuthHeaders() {
     authHeadersKeys.forEach((key) => {
@@ -25,7 +18,9 @@ export function deleteAuthHeaders() {
     });
 }
 
-const setDefaultHeaders = (headers) => {
+export const setDefaultHeaders = (data) => {
+    const headers = parseJson(data);
+    if(!headers) return null;
     authHeadersKeys.forEach((key) => {
         axios.defaults.headers.common[key] = headers[key];
     });

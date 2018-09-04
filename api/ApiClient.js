@@ -49,8 +49,8 @@ export default class ApiClient {
                     updateHeadersClient(response.headers);
                 }
                 return response;
-            }, (error) => {
-                return { error };
+            }).catch(error => {
+                return error;
             });
     }
 }

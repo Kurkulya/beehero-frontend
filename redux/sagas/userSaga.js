@@ -1,8 +1,9 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
 import api from 'api/config/apiAuth';
-import { getCookie, removeCookieClient, removeCookieServer } from "helpers/cookies";
 import { redirect } from "helpers/redirect";
-import { deleteAuthHeaders, updateHeadersServer } from "helpers/headers";
+import { deleteAuthHeaders } from "helpers/headers";
+import { setCookie, parseCookies, destroyCookie } from 'nookies';
+import {authTokenFormat, hasAuthInfo} from "../../helpers/authToken";
 
 export function* logIn(action) {
     try {
@@ -17,7 +18,7 @@ export function* logOut() {
     try {
         yield call([api.auth, api.auth.signOut]);
         deleteAuthHeaders();
-        removeCookieClient('auth-headers');
+        destroyCookie({}, 'auth-headers');
         redirect("/login");
         yield put({ type: "SIGN_OUT_SUCCESS" });
     } catch (error) {
@@ -27,16 +28,24 @@ export function* logOut() {
 
 export function* validateToken(action) {
     try {
-        console.log('validate');
-        const headers = getCookie('auth-headers', action.payload.req);
-        console.log(headers);
-        const response = yield call([api.auth, api.auth.validateToken], headers);
-        console.log('get response');
-        updateHeadersServer(action.payload.res, response.headers, headers);
-        yield put({ type: "SIGN_IN_SUCCESS", user: response.data });
+        const headers = parseCookies(action.payload)['auth-headers'];
+        const { data } = yield call([api.auth, api.auth.validateToken], headers);
+        if (hasAuthInfo(headers)) {
+            const authHeaders = authTokenFormat(headers);
+            setCookie(action.payload, 'auth-headers', JSON.stringify(authHeaders));
+            console.log('Server cookies has been set: ', authHeaders);
+        }
+        if(data) {
+            yield put({ type: "SIGN_IN_SUCCESS", user: data });
+        }
+        else {
+            yield put({ type: "SIGN_IN_ERROR", error });
+        }
     } catch (error) {
-        removeCookieServer('auth-headers', action.payload.res);
-        console.log('errors');
+        if(action.payload.res && !action.payload.res.finished) {
+            destroyCookie(action.payload, 'auth-headers');
+            console.log('Server cookies has been deleted');
+        }
         yield put({ type: "SIGN_IN_ERROR", error });
     }
 }
