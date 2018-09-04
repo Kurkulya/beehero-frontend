@@ -1,5 +1,5 @@
 export default {
     messages: {
-        'bh.name': 'BeeHeero',
+        'bh.name': 'BeeHero',
     },
 };

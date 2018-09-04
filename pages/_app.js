@@ -11,6 +11,7 @@ import { parseCookies } from 'nookies';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import { setDefaultHeaders } from "helpers/headers";
 import { getLocaleState } from "redux/selectors/localeSelectors";
+import HeaderLayout from "components/Layouts/HeaderLayout";
 
 addLocaleData([...en]);
 
@@ -39,7 +40,9 @@ class ExampleApp extends App {
             <Container>
                 <Provider store={store}>
                     <IntlProvider locale={locale} messages={locales[locale].messages}>
-                        <Component {...pageProps} />
+                        <HeaderLayout>
+                            <Component {...pageProps} />
+                        </HeaderLayout>
                     </IntlProvider>
                 </Provider>
             </Container>
