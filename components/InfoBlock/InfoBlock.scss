@@ -1,0 +1,22 @@
+@import '../../utils/variables';
+@import '../../utils/mixins';
+
+.bh-info_container {
+  @include flex(column, center, center);
+  padding: 20px;
+  min-width: 75px;
+
+  .bh-info-title {
+    @include flex(row, center, center);
+    .bh-icon {
+      width: 20px;
+    }
+  }
+
+  .bh-info_value {
+    font-size: 24px;
+    color: $dark-color;
+  }
+}
+
+

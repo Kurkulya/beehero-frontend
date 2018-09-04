@@ -30,6 +30,7 @@ class ExampleApp extends App {
         return { pageProps, authHeaders: headers };
     }
 
+
     componentDidMount() {
         setDefaultHeaders(this.props.authHeaders);
     }
