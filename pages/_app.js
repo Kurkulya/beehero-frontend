@@ -12,7 +12,9 @@ import { parseCookies } from 'nookies';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import { setDefaultHeaders } from "helpers/headers";
 import { getLocaleState } from "redux/selectors/localeSelectors";
+import { getIsSignInState } from "redux/selectors/userSelectors";
 import HeaderLayout from "components/Layouts/HeaderLayout";
+import MenuLayout from "../components/Layouts/MenuLayout/MenuLayout";
 
 addLocaleData([...en]);
 
@@ -37,12 +39,15 @@ class ExampleApp extends App {
     render() {
         const { Component, pageProps, store } = this.props;
         const locale = getLocaleState(store.getState());
+        const isSignIn = getIsSignInState(store.getState());
         return (
             <Container>
                 <Provider store={store}>
                     <IntlProvider locale={locale} messages={locales[locale].messages}>
                         <HeaderLayout>
-                            <Component {...pageProps} />
+                            <MenuLayout hideMenu={!isSignIn}>
+                                <Component {...pageProps} />
+                            </MenuLayout>
                         </HeaderLayout>
                     </IntlProvider>
                 </Provider>

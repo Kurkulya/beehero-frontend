@@ -1,0 +1,16 @@
+@import '../../../utils/variables';
+
+.bh-menu-layout {
+  display: flex;
+  .bh-menu-area {
+    width: $menu-width;
+    .bh-menu-fixed {
+      width: $menu-width;
+      position: fixed;
+      bottom: 0;
+      top: $header-height;
+      height: 100%;
+    }
+  }
+}
+
