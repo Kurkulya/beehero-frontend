@@ -5,14 +5,16 @@ import PropTypes from 'prop-types';
 const Header = ({ isSignIn, email, logOut }) => {
     return (
         <div className="bh-header">
-            <img className="bh-header-logo" src="static/images/logo.webp"/>
-            {isSignIn
-                && (
-                    <div className="bh-user-info">
-                        <button className="bh-logout-button" onClick={logOut}>LogOut</button>
-                        <div className="bh-user-email">{email}</div>
-                    </div>
-                )}
+            <div className="bh-header-fixed">
+                <img className="bh-header-logo" src="static/images/logo.webp"/>
+                {isSignIn
+                    && (
+                        <div className="bh-user-info">
+                            <button className="bh-logout-button" onClick={logOut}>LogOut</button>
+                            <div className="bh-user-email">{email}</div>
+                        </div>
+                    )}
+            </div>
         </div>);
 };
 

@@ -2,7 +2,7 @@
 
 .bh-menu-layout {
   display: flex;
-  height: 100%;
+  flex: auto;
   .bh-menu-area {
     width: $menu-width;
   }

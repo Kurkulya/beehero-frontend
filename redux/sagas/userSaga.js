@@ -39,7 +39,7 @@ export function* validateToken(action) {
         if (data) {
             yield put({ type: "SIGN_IN_SUCCESS", user: data });
         } else {
-            yield put({ type: "SIGN_IN_ERROR", error });
+            yield put({ type: "SIGN_IN_ERROR" });
         }
     } catch (error) {
         if (action.payload.res && !action.payload.res.finished) {

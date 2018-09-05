@@ -1,11 +1,10 @@
 @import '../../utils/variables';
+@import '../../utils/mixins';
 
 .bh-menu {
-  background-color: $dark-color;
-  display: flex;
+  @include block($dark-color, 30px 0 0 0);
+  @include flex(column, space-between, initial);
   height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
   .bh-menu-item {
     display: flex;
     width: 100%;

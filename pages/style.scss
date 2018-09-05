@@ -3,11 +3,12 @@
 html {
   height: 100%;
   body {
-    padding-top: $header-height;
     height: 100%;
     background-color: $light-color!important;
     #__next {
       height: 100%;
+      display: flex;
+      flex-direction: column;
     }
   }
 }
