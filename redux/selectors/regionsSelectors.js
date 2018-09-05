@@ -1,0 +1,1 @@
+export const getRegionsState = state => state.regions;

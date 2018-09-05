@@ -1,19 +1,28 @@
-import React from 'react';
 import './Menu.scss';
+import MenuItem from 'components/Menu/MenuItem';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Menu = () => {
+const Menu = ({ regions }) => {
+    const arrayOfRegions = () => {
+        return Object.values(regions);
+    };
     return (
         <div className="bh-menu">
             <div className="bh-menu-top">
-                <div className="bh-menu-item">Dashboard</div>
-                <div className="bh-menu-item">Regions</div>
-                <div className="bh-menu-item">Settings</div>
+                <MenuItem name="Dashboard"/>
+                <MenuItem name="Regions" list={arrayOfRegions()}/>
+                <MenuItem name="Settings"/>
             </div>
             <div className="bh-menu-bottom">
-                <div className="bh-menu-item">Send Feedback</div>
-                <div className="bh-menu-item">Help</div>
+                <MenuItem name="Send Feedback"/>
+                <MenuItem name="Help"/>
             </div>
         </div>);
+};
+
+Menu.propTypes = {
+    regions: PropTypes.object,
 };
 
 export default Menu;
